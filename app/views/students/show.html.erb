@@ -1,0 +1,24 @@
+<h1> Student Details</h1>
+  <p><strong>Name:</strong><%= @student.name %> </p>
+  <p><strong>Age:</strong><%= @student.age %></p>
+  <p><strong>Email:</strong><%= @student.email %></p>
+
+  <p><strong> Enrolled Courses:</p></strong>
+  <ol>
+    <% @courses_name.each do |course_name| %>
+    <li><%= course_name%></li>
+    <% end %>
+  </ol>
+
+  <p>Available Courses:</p>
+  <%= form_with model: [@student, StudentCourse.new], url: student_enrollments_path(@student) do |form| %>
+  <select name= "course_id">
+    <% Course.all.each do |course| %>
+    <% unless @student.courses.include?(course) %>
+    <option value= "<%= course.id %>"><%= course.name %></option>
+    <% end %>
+    <% end %>
+    </select>
+    <%= form.submit "Enroll" %>
+    <% end %>
+  <%= link_to 'Back to Student List Page' , students_path %>
